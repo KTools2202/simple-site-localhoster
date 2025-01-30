@@ -1,0 +1,50 @@
+name: Release app
+
+run-name: CI release fired off at ${{ github.head_ref }}
+
+on:
+    push:
+        tags:
+            - v*
+
+jobs:
+    build:
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: ["windows-latest", "macos-latest", "ubuntu-latest"]
+                include:
+                    - os: "windows-latest"
+                      short_os: "windows"
+                    - os: "macos-latest"
+                      short_os: "macos"
+                    - os: "ubuntu-latest"
+                      short_os: "linux"
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            
+            - name: Setup Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: 3.12
+            
+            - name: Install dependencies
+              run: |
+                python -m pip install --upgrade pip
+                pip install -r requirements.txt
+            
+            - name: Build via PyInstaller
+              shell: bash
+              run: |
+                pip install pyinstaller==6.11.1
+                pyinstaller --onefile --clean --name simple-site-localhoster main.py
+            
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: simple-site-localhoster-${{ github.head_ref }}-${{ matrix.short_os }}
+                path: dist/simple-site-localhoster
+    
+    release:
+      runs-on: ubuntu-latest

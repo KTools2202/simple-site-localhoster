@@ -1,0 +1,4 @@
+{
+    "recommendations": ["ms-python.python", "ms-python.debugpy", "ms-python.flake8"],
+    "unwantedRecommendations": ["wowbox.code-debuger", "formulahendry.code-runner"]
+}
