@@ -1,0 +1,25 @@
+[project]
+name = "simple-site-localhoster"
+version = "0.1.0"
+description = "A simple SSR/SSG web server host tool for local and multi-provider development"
+authors = [
+    { name = "KTrain5369", email = "contact@ktrain5369.me" }
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.8"
+
+dependencies = [
+    "typer>=0.9",
+    "uvicorn>=0.27",
+    "pyyaml>=6.0",
+    "toml>=0.10.2",
+    "json5>=0.9.10"
+]
+
+[project.scripts]
+simple-site-localhoster = "simple_site_localhoster.main:app"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
